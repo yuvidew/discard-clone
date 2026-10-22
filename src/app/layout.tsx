@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Inter, Outfit } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/toast";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// Free stand-ins for Discord's licensed gg sans (body) and ABC Ginto (headings)
+const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-display" });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -21,9 +24,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", inter.variable, outfit.variable, geistMono.variable, "font-sans")}
+      // next-themes sets the theme class on <html> before hydration.
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* Discord is dark-first; the toggle switches between light and dark only. */}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+          {/* Tooltips need a provider above them; Toaster provides the toast manager and renders the viewport. */}
+          <TooltipProvider>
+            <Toaster>{children}</Toaster>
+          </TooltipProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
