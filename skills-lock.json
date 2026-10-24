@@ -258,6 +258,12 @@
       "sourceType": "github",
       "skillPath": "skills/shadcn/SKILL.md",
       "computedHash": "7859e9a064940a1a0010c992b63e4633c4f5f39ed367a23c16f24029816b1703"
+    },
+    "socket-io": {
+      "source": "claude-dev-suite/claude-dev-suite",
+      "sourceType": "github",
+      "skillPath": "skills/real-time/socket-io/SKILL.md",
+      "computedHash": "db530d917a8ad12522e3eaf040db5101bf7ac6cef066814577b8fb909a5b429b"
     }
   }
 }

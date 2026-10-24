@@ -1,6 +1,9 @@
 import { z } from "zod";
 
 import type { MemberRole } from "@/features/channels/types/type";
+import type { Server as NetServer, Socket } from "net";
+import type { Server as SocketIOServer } from "socket.io";
+import type { NextApiResponse } from "next";
 
 // A member as listed in the members dialog.
 export type MemberSummary = {
@@ -30,3 +33,13 @@ export type UpdateMemberRolePayload = { serverId: string; memberId: string; role
 
 // Variables for the kick-member mutation; `memberName` only feeds the toast.
 export type KickMemberPayload = { serverId: string; memberId: string; memberName: string };
+
+
+// Pages API response whose underlying HTTP server also carries the shared Socket.IO instance.
+export type NextApiRespnseServerIo =NextApiResponse & {
+  socket: Socket & {
+    server: NetServer & {
+      io: SocketIOServer
+    }
+  }
+}

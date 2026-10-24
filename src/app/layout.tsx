@@ -10,6 +10,7 @@ import { DirectionProvider } from "@/components/ui/direction";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { Toaster } from "@/components/ui/toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 // Figtree is the free fallback behind Discord's gg sans / ABC Ginto fonts (see --font-sans in globals.css).
 const figtree = Figtree({ subsets: ['latin'], variable: '--font-figtree' });
@@ -59,11 +60,17 @@ const RootLayout = ({ children }: LayoutProps<"/">) => {
           <ClerkProvider appearance={{ theme: shadcn }}>
             {/* Theme (class-based, dark by default), plus direction, tooltip and toast contexts required by the shadcn components. */}
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-              <DirectionProvider direction="ltr">
-                <TooltipProvider>
-                  <QueryProvider><Toaster>{children}</Toaster></QueryProvider>
-                </TooltipProvider>
-              </DirectionProvider>
+              <SocketProvider>
+                <DirectionProvider direction="ltr">
+                  <TooltipProvider>
+                    <QueryProvider>
+                      <Toaster>
+                        {children}
+                      </Toaster>
+                    </QueryProvider>
+                  </TooltipProvider>
+                </DirectionProvider>
+              </SocketProvider>
             </ThemeProvider>
           </ClerkProvider>
         </Suspense>

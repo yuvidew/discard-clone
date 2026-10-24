@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { MobileToggle } from "@/components/mobile-toggle";
 import type { ChannelType } from "../types/type";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { SocketIndicator } from "@/components/socket-indicator";
 
 // Icon shown in front of the channel name for each channel type.
 const TYPE_ICONS: Record<ChannelType, LucideIcon> = {
@@ -40,6 +41,10 @@ export const ChatHeader = ({ name, type, navigation, imageUrl }: ChatHeaderProps
         <AvatarFallback className="text-[10px]">{name.slice(0, 2).toUpperCase()}</AvatarFallback>
       </Avatar>
       <h1 className="truncate text-base font-semibold text-black dark:text-white">{name}</h1>
+
+      <div className="ml-auto flex items-center">
+        <SocketIndicator/>
+      </div>
     </header>
   );
 };
