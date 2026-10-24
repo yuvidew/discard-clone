@@ -14,6 +14,8 @@ const createPrismaClient = () => {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     connectionLimit: 5,
+    // MySQL 8 uses caching_sha2_password; the driver must be allowed to fetch the server's RSA key on first login.
+    allowPublicKeyRetrieval: true,
   });
   return new PrismaClient({ adapter });
 };
