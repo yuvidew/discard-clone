@@ -12,6 +12,8 @@ export const useUpdateChannel = () => {
     mutationKey: ["update-channel"],
     onSuccess: (_data, { serverId }) => {
       queryClient.invalidateQueries({ queryKey: ["get-channels", serverId] });
+      // Prefix match: also refreshes the open channel's header.
+      queryClient.invalidateQueries({ queryKey: ["get-channel-by-id", serverId] });
       toast.add({ title: "Channel updated", type: "success" });
     },
     onError: (error) => {

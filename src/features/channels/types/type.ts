@@ -15,6 +15,13 @@ export type GetChannelsResponse = {
   channels: ChannelSummary[];
 };
 
+// Shape of the GET /api/servers/[id]/channels/[channelId] success response.
+export type GetChannelByIdResponse = {
+  channel: ChannelSummary;
+  // The signed-in user's role in this server.
+  role: MemberRole;
+};
+
 // Validation for the "create channel" form; "general" is reserved for the default channel.
 export const createChannelSchema = z.object({
   name: z

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsUpDownIcon, LogOutIcon, PlusCircleIcon, SettingsIcon, TrashIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import {  ChevronDownIcon, LogOutIcon, PlusCircleIcon, SettingsIcon, TrashIcon, UserPlusIcon, UsersIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { useGetChannels } from "@/features/channels/hook/use-get-channels";
@@ -70,7 +70,7 @@ export const ServerHeader = ({ serverId }: { serverId: string }) => {
                         </Avatar>
                         <span className="w-full truncate text-sm font-semibold">{server.name}</span>
                     </div>
-                    <ChevronsUpDownIcon className="size-4 shrink-0 text-muted-foreground" />
+                    <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent align="start" className="w-56">

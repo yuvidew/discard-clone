@@ -62,7 +62,7 @@ export const MemberList = ({ serverId, memberId }: { serverId: string,  memberId
       {data?.members.map(({ id, role, profile }) => (
         <Link 
           key={id} 
-          href={`/server/${serverId}/conversations/${id}`} 
+          href={`/server/${serverId}/members/${id}`} 
           className={cn("flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition", memberId === id && "bg-zinc-700/20 dark:bg-zinc-700")}
         >
           <Avatar className="size-6">

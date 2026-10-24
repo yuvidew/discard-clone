@@ -10,8 +10,7 @@ const ServerIdLayout = async ({ children }: { children: ReactNode }) => {
                 <ServerSidebar/>
             </div>
             <main className='h-full md:pl-60'>
-
-                chaild {children}
+                {children}
             </main>
         </div>
     )

@@ -1,9 +1,15 @@
 import { api } from "@/lib/axios";
-import type { CreateChannelPayload, DeleteChannelPayload, GetChannelsResponse, UpdateChannelPayload } from "../types/type";
+import type { CreateChannelPayload, DeleteChannelPayload, GetChannelByIdResponse, GetChannelsResponse, UpdateChannelPayload } from "../types/type";
 
 // Fetches a server's name and all of its channels.
 export const getChannels = async (serverId: string) => {
   const { data } = await api.get<GetChannelsResponse>(`/servers/${serverId}/channels`);
+  return data;
+};
+
+// Fetches a single channel of a server by its id.
+export const getChannelById = async (serverId: string, channelId: string) => {
+  const { data } = await api.get<GetChannelByIdResponse>(`/servers/${serverId}/channels/${channelId}`);
   return data;
 };
 
