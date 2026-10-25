@@ -1,7 +1,7 @@
 import { requireAuth } from '@/lib/auth-utils'
 import { NavigationServers } from './navigation-servers';
 import { ModeToggle } from '../mode-toggle';
-import { UserButton } from '@clerk/nextjs';
+import { UserMenu } from './user-menu';
 
 export const NavigationSidebar = async () => {
     await requireAuth();
@@ -10,7 +10,7 @@ export const NavigationSidebar = async () => {
             <NavigationServers />
             <div className="mt-auto flex flex-col items-center gap-3">
                 <ModeToggle />
-                <UserButton />
+                <UserMenu />
             </div>
         </div>
     )

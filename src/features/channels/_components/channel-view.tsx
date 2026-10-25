@@ -6,6 +6,8 @@ import type { ReactNode } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetChannelById } from "../hook/use-get-channel-by-id";
 import { ChatHeader } from "./chat-header";
+import { ChatInput } from "./chat-input";
+import { ChatMessages } from "./chat-messages";
 
 /**
  * @component ChannelView
@@ -13,7 +15,10 @@ import { ChatHeader } from "./chat-header";
  * @param navigation Server-rendered server rail, forwarded to the header's mobile menu.
  */
 export const ChannelView = ({ navigation }: { navigation: ReactNode }) => {
-  const { id: serverId, channelId } = useParams<{ id: string; channelId: string }>();
+  // useParams is nullable when a Pages Router folder exists; empty ids keep the query disabled.
+  const params = useParams<{ id: string; channelId: string }>();
+  const serverId = params?.id ?? "";
+  const channelId = params?.channelId ?? "";
   const { data, isPending, isError } = useGetChannelById(serverId, channelId);
 
   if (isPending) {
@@ -29,5 +34,38 @@ export const ChannelView = ({ navigation }: { navigation: ReactNode }) => {
     return <p className="p-4 text-sm text-destructive">Couldn&apos;t load this channel.</p>;
   }
 
-  return <ChatHeader name={data.channel.name} type={data.channel.type} navigation={navigation} />;
+  return (
+    // h-dvh, not h-full: the root <body> only sets min-height, so percentage heights don't resolve.
+    <div className='bg-white dark:bg-[#313338] flex flex-col h-dvh'>
+      <ChatHeader name={data.channel.name} type={data.channel.type} navigation={navigation} />
+
+      <ChatMessages
+        member={data.member}
+        name={data.channel.name}
+        chatId={data.channel.id}
+        type="channel"
+        apiUrl="/api/messages"
+        socketUri="/api/socket/messages"
+        socketQuery={{
+          channelId: data.channel.id,
+          // The channel payload has no serverId; the one from the URL is the same server.
+          serverId,
+        }}
+        paramKey='channelId'
+        paramValue={data.channel.id}
+      />
+
+      <ChatInput 
+        name={data.channel.name}
+        type="channel"
+        apiUrl="/api/socket/messages"
+        query={{
+          channelId: data.channel.id,
+          // The channel payload has no serverId; the one from the URL is the same server.
+          serverId,
+        }}
+        placeholder={`Message #${data.channel.name}`} 
+      />
+    </div>
+  );
 };

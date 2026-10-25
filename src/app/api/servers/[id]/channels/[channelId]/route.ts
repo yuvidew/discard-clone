@@ -27,7 +27,7 @@ export const GET = async (_req: NextRequest, { params }: RouteContext) => {
         // Membership gate: non-members get 404 so server ids can't be probed.
         const member = await prisma.member.findFirst({
             where: { profileId: profile.id, serverId: id },
-            select: { role: true },
+            select: { id: true, role: true, profileId: true, serverId: true },
         });
 
         if (!member) {
@@ -44,7 +44,7 @@ export const GET = async (_req: NextRequest, { params }: RouteContext) => {
             return notFound("Channel not found");
         };
 
-        return NextResponse.json({ channel, role: member.role });
+        return NextResponse.json({ channel, role: member.role, member });
     } catch (error) {
         console.log("Couldn't fetch channel by id", error);
         return errorResponse("Couldn't fetch channel");

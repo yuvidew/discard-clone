@@ -2,7 +2,7 @@
 
 import { MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import { ServerSidebar } from "@/components/server-sidebar/sidebar";
 import { Button } from "@/components/ui/button";
@@ -17,10 +17,14 @@ export const MobileToggle = ({ navigation }: { navigation: ReactNode }) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close the sheet after picking a server/channel so the page behind it is visible.
-  useEffect(() => {
+  // Pathname the sheet last saw; a change means a server/channel was picked.
+  const [lastPathname, setLastPathname] = useState(pathname);
+
+  // Close the sheet after picking a server/channel so the page behind it is visible (state adjusted during render, not in an effect).
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>

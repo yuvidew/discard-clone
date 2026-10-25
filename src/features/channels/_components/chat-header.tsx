@@ -36,10 +36,6 @@ export const ChatHeader = ({ name, type, navigation, imageUrl }: ChatHeaderProps
     <header className="flex h-12 items-center gap-2 border-b-2 border-neutral-200 px-3 dark:border-neutral-800">
       <MobileToggle navigation={navigation} />
       <Icon className="size-5 shrink-0 text-zinc-500 dark:text-zinc-400" />
-      <Avatar className="size-6">
-        <AvatarImage src={imageUrl} alt={name} />
-        <AvatarFallback className="text-[10px]">{name.slice(0, 2).toUpperCase()}</AvatarFallback>
-      </Avatar>
       <h1 className="truncate text-base font-semibold text-black dark:text-white">{name}</h1>
 
       <div className="ml-auto flex items-center">

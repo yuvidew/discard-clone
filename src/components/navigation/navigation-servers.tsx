@@ -58,7 +58,7 @@ export const NavigationServers = () => {
                   <Link
                     href={`/server/${server.id}`}
                     aria-label={server.name}
-                    className={cn("rounded-md", params.id === server.id && "ring-2 ring-primary ring-offset-2 ring-offset-background")}
+                    className={cn("rounded-md", params?.id === server.id && "ring-2 ring-primary ring-offset-2 ring-offset-background")}
                   />
                 }
               >

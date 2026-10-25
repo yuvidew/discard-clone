@@ -30,7 +30,7 @@ export const ChannelItem = ({ serverId, channel, icon: Icon, canEdit }: ChannelI
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   // The channel open in the URL, if any; its row is highlighted as active.
-  const { channelId } = useParams<{ channelId?: string }>();
+  const channelId = useParams<{ channelId?: string }>()?.channelId;
   const isActive = channelId === channel.id;
   const { mutate: deleteChannel, isPending: isDeleting } = useDeleteChannel();
   // "general" is the default channel: locked, so it can't be edited or deleted.

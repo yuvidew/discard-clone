@@ -20,9 +20,11 @@ const SECTIONS: { type: ChannelType; label: string; icon: LucideIcon }[] = [
 ];
 
 export const ServerSidebar = () => {
-  const { id } = useParams<{ id: string }>();
-  const { channelId } = useParams<{ channelId?: string }>();
-  const { memberId } = useParams<{ memberId?: string }>();
+  // useParams is nullable when a Pages Router folder exists, so read each key defensively.
+  const params = useParams<{ id: string; channelId?: string; memberId?: string }>();
+  const id = params?.id ?? "";
+  const channelId = params?.channelId;
+  const memberId = params?.memberId;
 
   const { data, isPending, isError } = useGetChannels(id);
 
