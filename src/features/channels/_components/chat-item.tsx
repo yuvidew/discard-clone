@@ -18,6 +18,8 @@ import { useDeleteMessage } from "../hook/use-delete-message";
 import { useEditMessage } from "../hook/use-edit-message";
 import { editMessageSchema } from "../types/type";
 import type { ChannelMember, EditMessageValues, MemberRole, MessageWithMemberWithProfile } from "../types/type";
+import { useParams, useRouter } from "next/navigation";
+
 
 // Text shown in the tooltip over the author's role icon.
 const ROLE_LABELS: Record<MemberRole, string> = {
@@ -64,6 +66,7 @@ export const ChatItem = ({
 }: ChatItemProps) => {
   const { profile } = member;
 
+
   // True while this message's text is swapped for the inline edit form.
   const [isEditing, setIsEditing] = useState(false);
   // Controls the delete confirmation dialog.
@@ -71,6 +74,10 @@ export const ChatItem = ({
 
   const { mutate: edit, isPending: isEditPending } = useEditMessage();
   const { mutate: remove, isPending: isDeleting } = useDeleteMessage();
+
+
+  const params = useParams();
+  const router = useRouter();
 
   // The chat's TanStack key (same shape ChatMessages builds); refreshed after an edit/delete.
   const queryKey = `chat:${socketQuery.channelId ?? socketQuery.conversationId}`;
@@ -111,6 +118,14 @@ export const ChatItem = ({
     remove({ socketUrl, messageId: id, socketQuery, queryKey }, { onSuccess: () => setIsDeleteOpen(false) });
   };
 
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) {
+      return;
+    }
+
+    router.push(`/server/${params?.id}/members/${member.id}`)
+  }
+
   // File extension of the attachment, ignoring any query string, to tell PDFs from images.
   const fileType = fileUrl?.split("?")[0].split(".").pop()?.toLowerCase();
 
@@ -126,17 +141,17 @@ export const ChatItem = ({
 
   return (
     <div className="group flex w-full items-start gap-x-3 px-4 py-2 transition hover:bg-black/5 dark:hover:bg-white/5">
-      <Avatar size="lg" className="mt-0.5">
+      <Avatar size="lg" className="mt-0.5 cursor-pointer" onClick={onMemberClick}>
         <AvatarImage src={profile.imageUrl} alt={profile.name} />
         <AvatarFallback>{profile.name.slice(0, 2).toUpperCase()}</AvatarFallback>
       </Avatar>
 
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center gap-x-2">
-          <p className="truncate text-sm font-semibold">{profile.name}</p>
-          <Tooltip>
+          <p className="truncate text-sm font-semibold transition cursor-pointer  hover:underline" onClick={onMemberClick}>{profile.name}</p>
+          <Tooltip >
             <TooltipTrigger render={<span className="inline-flex cursor-default" />}>
-              <MemberRoleIcon role={member.role} />
+              <MemberRoleIcon role={member.role}  />
             </TooltipTrigger>
             <TooltipContent>{ROLE_LABELS[member.role]}</TooltipContent>
           </Tooltip>
